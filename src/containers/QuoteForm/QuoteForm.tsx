@@ -2,13 +2,14 @@ import { useParams } from 'react-router-dom';
 import React, { useState } from 'react';
 import categories from '../../categories';
 import { Quote } from '../../types';
+import axiosApiPost from '../../axiosApiPost';
 
 const QuoteForm = () => {
   const params = useParams();
   const [quote, setQuote] = useState<Quote>({
     category: '',
     author: '',
-    quoteText: '',
+    text: '',
   });
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -20,14 +21,31 @@ const QuoteForm = () => {
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(quote);
+
+    try {
+      if (params.id) {
+        /*await axiosApiPost.put('quotes/' + params.id + '.json', quote);*/
+        console.log('PUT');
+      } else {
+        console.log(quote);
+        await axiosApiPost.post('quotes.json', quote);
+      }
+    } catch (e) {
+      alert("Post Form error " + e);
+    } finally {
+      setQuote({
+        category: '',
+        author: '',
+        text: '',
+      });
+    }
   };
 
 
   let title = 'Submit new quote';
 
   if (params.id) {
-    title = 'Edit quote';
+    title = 'Edit a quote';
   }
 
   return (
@@ -64,15 +82,15 @@ const QuoteForm = () => {
           />
         </div>
         <div className='mb-3'>
-          <label htmlFor='quoteText' className='form-label'>
-            Quote text
+          <label htmlFor='text' className='form-label'>
+            Text
           </label>
           <textarea
-            name='quoteText'
-            id='quoteText'
+            name='text'
+            id='text'
             className='form-control'
             required
-            value={quote.quoteText}
+            value={quote.text}
             onChange={onChange}
           />
         </div>

@@ -1,5 +1,5 @@
 export interface Quote {
   category: string;
   author: string;
-  quoteText: string;
+  text: string;
 }
