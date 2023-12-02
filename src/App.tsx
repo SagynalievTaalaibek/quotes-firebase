@@ -16,10 +16,10 @@ const App = () => {
       </header>
       <div className='container'>
         <div className='row mt-2'>
-          <div className='col-4'>
+          <div className='col-3 border'>
             <Menu />
           </div>
-          <div className='col-8'>
+          <div className='col-9'>
             <Routes>
               <Route path={'/'} element={(<Quotes />)} />
               {categories.map((category) => (
