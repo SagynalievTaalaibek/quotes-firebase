@@ -1,4 +1,5 @@
 import Navbar from './components/Navbar/Navbar';
+import Menu from './components/Menu/Menu';
 
 const App = () => {
   return (
@@ -8,9 +9,13 @@ const App = () => {
           <Navbar />
         </div>
       </header>
-      <div className='row'>
-        <div className="col-4"></div>
-        <div className="col-8"></div>
+      <div className="container">
+        <div className='row'>
+          <div className="col-4">
+            <Menu/>
+          </div>
+          <div className="col-8"></div>
+        </div>
       </div>
     </>
   );
