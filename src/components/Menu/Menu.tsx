@@ -1,16 +1,10 @@
 import { NavLink } from 'react-router-dom';
+import categories from '../../categories';
 
-const categories = [
-  { title: 'Star Wars', id: 'star-wars' },
-  { title: 'Famous people', id: 'famous-people' },
-  { title: 'Saying', id: 'saying' },
-  { title: 'Humour', id: 'humour' },
-  { title: 'Motivational', id: 'motivational' },
-];
 
 const Menu = () => {
   return (
-    <nav className='nav d-flex flex-column mt-2'>
+    <nav className='nav d-flex flex-column'>
       <NavLink
         to='/'
         className={({ isActive, isPending }) =>
@@ -23,7 +17,8 @@ const Menu = () => {
       </NavLink>
       {categories.map((category) => (
         <NavLink
-          to={category.id}
+          to={'quotes/' + category.id}
+          key={category.id}
           className={({ isActive, isPending }) =>
             `nav-link  ${
               isPending ? 'pending' : isActive ? 'active text-black' : ''

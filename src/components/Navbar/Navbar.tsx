@@ -34,7 +34,7 @@ const Navbar = () => {
               </li>
               <li className='nav-item'>
                 <NavLink
-                  to='/new-quote'
+                  to='/add-quote'
                   className={({ isActive, isPending }) =>
                     `nav-link ${
                       isPending ? 'pending' : isActive ? 'active' : ''
