@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
 import React, { useState } from 'react';
 import categories from '../../categories';
-import { Quote } from '../../types';
 import axiosApiPost from '../../axiosApiPost';
+import { Quote } from '../../types';
 
 const QuoteForm = () => {
   const params = useParams();
