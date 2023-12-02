@@ -1,16 +1,64 @@
 import { useParams } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import Preloader from '../../components/Preloader/Preloader';
 import categories from '../../categories';
 import axiosApiPost from '../../axiosApiPost';
 import { Quote } from '../../types';
 
 const QuoteForm = () => {
   const params = useParams();
+  const [loading, setLoading] = useState(false);
   const [quote, setQuote] = useState<Quote>({
     category: '',
     author: '',
     text: '',
   });
+
+  const fetchQuote = useCallback(async (id: string) => {
+    setLoading(true);
+
+    try {
+      const response = await axiosApiPost.get<Quote>(
+        'quotes/' + id + '.json',
+      );
+
+      if (response.data) {
+        setQuote(response.data);
+      }
+    } catch (e) {
+      alert('Error' + e);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (params.id) {
+      void fetchQuote(params.id);
+    }
+  }, [fetchQuote, params.id]);
+
+  const onSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setLoading(true);
+
+    try {
+      if (params.id) {
+        await axiosApiPost.put('quotes/' + params.id + '.json', quote);
+      } else {
+        await axiosApiPost.post('quotes.json', quote);
+        setQuote({
+          category: '',
+          author: '',
+          text: '',
+        });
+      }
+    } catch (e) {
+      alert('Post Form error ' + e);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setQuote((prevState) => ({
@@ -18,29 +66,6 @@ const QuoteForm = () => {
       [event.target.name]: event.target.value,
     }));
   };
-
-  const onSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    try {
-      if (params.id) {
-        /*await axiosApiPost.put('quotes/' + params.id + '.json', quote);*/
-        console.log('PUT');
-      } else {
-        console.log(quote);
-        await axiosApiPost.post('quotes.json', quote);
-      }
-    } catch (e) {
-      alert("Post Form error " + e);
-    } finally {
-      setQuote({
-        category: '',
-        author: '',
-        text: '',
-      });
-    }
-  };
-
 
   let title = 'Submit new quote';
 
@@ -50,7 +75,7 @@ const QuoteForm = () => {
 
   return (
     <div>
-      <h4>{title} {params.id}</h4>
+      <h4>{title}</h4>
       <form onSubmit={onSubmit}>
         <div className='mb-3'>
           <select
@@ -96,6 +121,7 @@ const QuoteForm = () => {
         </div>
         <button className='btn btn-primary'>Save</button>
       </form>
+      {loading && <Preloader />}
     </div>
   );
 };

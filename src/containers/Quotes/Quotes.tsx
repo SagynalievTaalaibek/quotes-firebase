@@ -69,8 +69,6 @@ const Quotes = () => {
     }
   }, [fetchQuoteData, params.id]);
 
-
-
   return (
     <div>
       <h4>{title}</h4>

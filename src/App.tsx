@@ -16,7 +16,7 @@ const App = () => {
       </header>
       <div className='container'>
         <div className='row mt-2'>
-          <div className='col-3 border rounded-bottom'>
+          <div className='col-3'>
             <Menu />
           </div>
           <div className='col-9'>
