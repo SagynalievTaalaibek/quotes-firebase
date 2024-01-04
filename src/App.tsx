@@ -4,7 +4,6 @@ import Menu from './components/Menu/Menu';
 import Quotes from './containers/Quotes/Quotes';
 import QuoteForm from './containers/QuoteForm/QuoteForm';
 import NotFound from './containers/NotFound';
-import categories from './categories';
 
 const App = () => {
   return (
@@ -22,9 +21,7 @@ const App = () => {
           <div className='col-9'>
             <Routes>
               <Route path={'/'} element={(<Quotes />)} />
-              {categories.map((category) => (
-                <Route path={'quotes/:id'} element={(<Quotes />)} key={category.id} />
-              ))}
+              <Route path={'/quotes/:id'} element={(<Quotes />)} />
               <Route path={'/add-quote'} element={<QuoteForm />} />
               <Route path={'/quote/:id/edit'} element={<QuoteForm />} />
               <Route path={'*'} element={<NotFound />} />
